@@ -1,0 +1,4 @@
+baseURL = 'https://leslieo2.github.io/'
+languageCode = 'en-us'
+title = 'Leslie Tech Notes'
+theme = "ananke"
