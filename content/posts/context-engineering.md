@@ -1,10 +1,11 @@
 +++
-title = "Dive into Context Engine: Lessons from the Gemini CLI"
+title = "Dive into Context Engineering: Lessons from the Gemini CLI"
 date = "2025-10-18T16:38:23+08:00"
 draft = false
-tags = ["LLM", "Developer Tools", "Context Management"]
+tags = ["LLM", "Developer Tools", "Context Engineering", "Agent", "Gemini Cli"]
 categories = ["AI Engineering"]
 description = "Dissecting the Gemini CLI context engine to show how environment state, memory, IDE signals, and subagents stay in sync."
+copyright = "© 2025 Leslie Tech Notes. All rights reserved."
 +++
 
 ## Table of Contents
@@ -25,7 +26,7 @@ description = "Dissecting the Gemini CLI context engine to show how environment 
 
 ## Introduction
 
-> Written against repository revision `dc0e0b416592860bdc0846aed0386e1a9637a51e`.
+> Written against repository [Gemini CLI](https://github.com/google-gemini/gemini-cli/tree/main) at revision `dc0e0b416592860bdc0846aed0386e1a9637a51e`.
 
 ### Why Context Matters
 
