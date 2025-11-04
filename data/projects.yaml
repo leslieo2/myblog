@@ -5,6 +5,9 @@ authored:
   - name: LangGraph Mastery Playbook
     url: https://github.com/leslieo2/LangGraph-Mastery-Playbook
     description: Collection of practical LangGraph patterns and recipes for agent workflows.
+  - name: LieGraph
+    url: https://github.com/leslieo2/LieGraph
+    description: An AI agent-driven "Who Is Spy" game built with LangGraph, featuring autonomous agents with strategic reasoning and natural language interaction.
 
 contributed:
   - name: bilingual_book_maker
