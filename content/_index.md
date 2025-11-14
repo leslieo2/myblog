@@ -1,17 +1,17 @@
 ---
-title: "Leslie Tech Notes"
-description: "Personal blog about technology, programming, and open source"
+title: "Leslie Liu - Tech Notes"
+description: "LLM & Software Engineer - Building reliable multi-agent systems and cloud-native backends"
 ---
 
-# Working notes & experiments
+# Engineering notes & agent workflows
 
-Welcome! I'm Leslie, a developer focused on building autonomous tooling and AI-native developer experiences. This space documents my journey through distributed systems, agent workflows, and open source development.
+I'm Leslie Liu, a software engineer with 4+ years of experience building production systems at Autodesk and leading open-source agent projects. I specialize in LLM engineering, multi-agent orchestration with LangGraph, and cloud-native backend development.
 
 ## What you'll find here
 
-- **Technical deep dives** on AI engineering and system architecture
-- **Practical patterns** for agent workflows and developer tools
-- **Open source insights** from building and contributing to impactful projects
-- **Lessons learned** from shipping production-ready autonomous systems
+- **Production AI workflows** - Lessons from shipping reliable multi-agent systems
+- **LangGraph patterns** - Practical recipes for agent orchestration and state management
+- **Backend architecture** - Cloud-native services, performance optimization, and distributed systems
+- **Open source projects** - Insights from building LieGraph, LangGraph Playbook, and other agent tools
 
-Browse the latest posts below or explore the open source projects I work on.
+Browse the latest posts below or explore the open source projects I maintain and contribute to.

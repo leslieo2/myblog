@@ -1,15 +1,15 @@
 baseURL = 'https://leslieo2.github.io/'
 languageCode = 'en-us'
-title = 'Leslie Tech Notes'
+title = 'Leslie Liu - Tech Notes'
 theme = "ananke"
 
 [params]
   custom_css = ["homepage.css"]
 
   [params.hero]
-    badge = "Systems / Agents / DX"
-    title = "Practical notes on building autonomous tooling"
-    description = "Shipping AI-native developer experiences, wrangling distributed systems, and sharing lessons from open source work."
+    badge = "LLM / Agents / Backend"
+    title = "Leslie Liu - LLM & Software Engineer"
+    description = "Building reliable multi-agent systems, optimizing cloud-native backends, and sharing insights from production AI workflows. 4+ years shipping scalable services at Autodesk and leading open-source agent projects."
     primary_label = "Read the latest posts"
     primary_url = "/posts/"
     secondary_label = "Explore projects"
@@ -21,23 +21,28 @@ theme = "ananke"
       external = true
 
     [[params.hero.links]]
-      label = "Agent Playbook"
+      label = "LieGraph Game"
+      url = "https://github.com/leslieo2/LieGraph"
+      external = true
+
+    [[params.hero.links]]
+      label = "LangGraph Playbook"
       url = "https://github.com/leslieo2/LangGraph-Mastery-Playbook"
       external = true
 
     [[params.hero.links]]
-      label = "Say hi"
+      label = "Contact"
       url = "mailto:ly624928214@gmail.com"
       external = false
 
     [[params.hero.highlights]]
       label = "Current focus"
-      value = "LangGraph automation & AI infra"
+      value = "Multi-agent orchestration & LangGraph"
 
     [[params.hero.highlights]]
       label = "Stack"
-      value = "Java, Typescript, Python, Langgraph"
+      value = "Python, TypeScript, Java, AWS"
 
     [[params.hero.highlights]]
-      label = "Location"
-      value = "Shanghai, China"
+      label = "Experience"
+      value = "4+ years backend & AI engineering"
