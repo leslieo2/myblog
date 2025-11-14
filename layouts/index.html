@@ -1,36 +1,103 @@
 {{ define "main" }}
-  <article class="cf ph3 ph5-l pv3 pv4-l f4 tc-l center measure-wide lh-copy nested-links {{ $.Param "text_color" | compare.Default "mid-gray" }}">
-    {{ .Content }}
-  </article>
-
-  {{ with site.Data.projects }}
-  <section class="ph3 ph5-l pv4 center mw8">
-    <h2 class="f2 lh-title tc">Open Source Projects</h2>
-    <div class="flex-l mt4">
-      <div class="w-100 w-50-l pr0 pr4-l">
-        <h3 class="f3 bb bw1 pb2">Author</h3>
-        <ul class="list pl0 mt3">
-          {{ range .authored }}
-          <li class="mb3">
-            <a class="link dim blue" href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a>
-            <div class="f5 lh-copy mid-gray mt1">{{ .description }}</div>
-          </li>
+  {{ $hero := site.Params.hero }}
+  <section class="homepage-hero ph3 ph5-l pv5 center mw9">
+    <div class="homepage-hero__grid">
+      <div class="homepage-hero__intro">
+        {{ with $hero.badge }}
+          <p class="homepage-eyebrow">{{ . }}</p>
+        {{ end }}
+        <h1 class="homepage-title">
+          {{ with $hero.title }}
+            {{ . }}
+          {{ else }}
+            {{ .Site.Title }}
           {{ end }}
-        </ul>
+        </h1>
+        {{ with $hero.description }}
+          <p class="homepage-lede">{{ . }}</p>
+        {{ end }}
+        {{ with $hero.links }}
+          <ul class="homepage-hero__links" role="list">
+            {{ range . }}
+              {{ $external := compare.Default false .external }}
+              <li>
+                <a class="hero-link" href="{{ .url }}" {{ if $external }}target="_blank" rel="noopener"{{ end }}>
+                  <span>{{ .label }}</span>
+                  {{ if $external }}
+                    <span class="hero-link__icon" aria-hidden="true">↗</span>
+                  {{ end }}
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+        {{ end }}
+        <div class="homepage-hero__actions">
+          {{ with $hero.primary_url }}
+            <a class="hero-btn hero-btn--primary" href="{{ . }}">{{ $hero.primary_label | compare.Default "Read more" }}</a>
+          {{ end }}
+          {{ with $hero.secondary_url }}
+            <a class="hero-btn hero-btn--ghost" href="{{ . }}">{{ $hero.secondary_label | compare.Default "More projects" }}</a>
+          {{ end }}
+        </div>
       </div>
-      <div class="w-100 w-50-l mt4 mt0-l">
-        <h3 class="f3 bb bw1 pb2">Contributor</h3>
-        <ul class="list pl0 mt3">
-          {{ range .contributed }}
-          <li class="mb3">
-            <a class="link dim blue" href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a>
-            <div class="f5 lh-copy mid-gray mt1">{{ .description }}</div>
-          </li>
-          {{ end }}
-        </ul>
+
+      <div class="homepage-hero__panel">
+        <article class="homepage-hero__card f4 lh-copy {{ $.Param "text_color" | compare.Default "mid-gray" }}">
+          <div class="homepage-card__body nested-links">
+            {{ .Content }}
+          </div>
+        </article>
+
+        {{ with $hero.highlights }}
+          <div class="homepage-hero__highlights" aria-label="Current focus areas">
+            {{ range . }}
+              <div class="hero-highlight">
+                <span class="hero-highlight__label">{{ .label }}</span>
+                <p class="hero-highlight__value">{{ .value }}</p>
+              </div>
+            {{ end }}
+          </div>
+        {{ end }}
       </div>
     </div>
   </section>
+
+  {{ with site.Data.projects }}
+    <section id="projects" class="homepage-projects pv5 ph3 ph5-l bg-near-white">
+      <div class="center mw9">
+        <div class="section-header">
+          <p class="homepage-eyebrow">Open Source</p>
+          <h2 class="homepage-section-title">Projects & contributions</h2>
+          <p class="section-description">Impactful tooling and experiments that keep improving developer + agent workflows.</p>
+        </div>
+
+        <div class="projects-groups">
+          {{ $groups := slice (dict "title" "Maintainer projects" "items" .authored "badge" "Author") (dict "title" "Collabs & contributions" "items" .contributed "badge" "Contributor") }}
+          {{ range $groups }}
+            {{ $items := index . "items" }}
+            {{ if gt (len $items) 0 }}
+              <article class="projects-card">
+                <div class="projects-card__header">
+                  <span class="projects-card__badge">{{ index . "badge" }}</span>
+                  <h3 class="projects-card__title">{{ index . "title" }}</h3>
+                </div>
+                <ul class="projects-card__list">
+                  {{ range $items }}
+                    <li class="projects-card__item">
+                      <a class="projects-card__link" href="{{ .url }}" target="_blank" rel="noopener">
+                        <span>{{ .name }}</span>
+                        <span class="projects-card__linkIcon" aria-hidden="true">↗</span>
+                      </a>
+                      <p class="projects-card__summary">{{ .description }}</p>
+                    </li>
+                  {{ end }}
+                </ul>
+              </article>
+            {{ end }}
+          {{ end }}
+        </div>
+      </div>
+    </section>
   {{ end }}
 
   {{ $mainSections := site.Params.mainSections | compare.Default (collections.Slice "post") }}
@@ -39,30 +106,101 @@
   {{ $section_count := len $section }}
 
   {{ if and ($show_recent_posts) (compare.Ge $section_count 1) }}
-    <div class="pa3 pa4-ns w-100 w-70-ns center">
-      {{ $n_posts := $.Param "recent_posts_number" | compare.Default 3 }}
+    <section class="homepage-posts pv5 ph3 ph5-l">
+      <div class="center mw9">
+        {{ $n_posts := $.Param "recent_posts_number" | compare.Default 3 }}
+        {{ $posts := collections.First $n_posts $section }}
+        {{ $posts_len := len $posts }}
 
-      <section class="w-100 mw8">
-        {{ range (collections.First $n_posts $section) }}
-          <div class="w-100 mb4 relative">
-            {{ .Render "summary-with-image" }}
+        <div class="section-header">
+          <p class="homepage-eyebrow">Latest on the blog</p>
+          <h2 class="homepage-section-title">Fresh reads</h2>
+          <p class="section-description">Deep dives, debugging logs, and practical ways to put autonomous systems in production.</p>
+        </div>
+
+        {{ if gt $posts_len 0 }}
+          {{ $featured := index $posts 0 }}
+          {{ $rest := slice }}
+          {{ if gt $posts_len 1 }}
+            {{ $rest = collections.After 1 $posts }}
+          {{ end }}
+
+          <div class="homepage-posts__grid">
+            <div class="homepage-posts__featured">
+              {{ with $featured }}
+                {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
+                {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 220 }}
+                {{ $tags := .Params.tags | default (slice) }}
+                {{ $categories := .Params.categories | default (slice) }}
+                <article class="post-card post-card--featured">
+                  <a class="post-card__link" href="{{ .RelPermalink }}">
+                    <div class="post-card__meta">
+                      {{ if gt (len $categories) 0 }}
+                        <span class="post-card__pill">{{ index $categories 0 }}</span>
+                      {{ end }}
+                      <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+                      <span aria-hidden="true">·</span>
+                      <span>{{ .ReadingTime }} min read</span>
+                    </div>
+                    <h3 class="post-card__title">{{ .Title }}</h3>
+                    <p class="post-card__summary">{{ $summary }}</p>
+                    {{ if gt (len $tags) 0 }}
+                      <div class="post-card__tags">
+                        {{ range (collections.First 3 $tags) }}
+                          <span class="post-card__tag">{{ . }}</span>
+                        {{ end }}
+                      </div>
+                    {{ end }}
+                  </a>
+                </article>
+              {{ end }}
+
+              {{ if gt (len $rest) 0 }}
+                <div class="homepage-posts__list">
+                  {{ range $rest }}
+                    {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
+                    {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 150 }}
+                    {{ $tags := .Params.tags | default (slice) }}
+                    <article class="post-card post-card--compact">
+                      <a class="post-card__link" href="{{ .RelPermalink }}">
+                        <div class="post-card__meta">
+                          <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+                          <span aria-hidden="true">·</span>
+                          <span>{{ .ReadingTime }} min read</span>
+                        </div>
+                        <h3 class="post-card__title">{{ .Title }}</h3>
+                        <p class="post-card__summary">{{ $summary }}</p>
+                        {{ if gt (len $tags) 0 }}
+                          <div class="post-card__tags">
+                            {{ range (collections.First 2 $tags) }}
+                              <span class="post-card__tag">{{ . }}</span>
+                            {{ end }}
+                          </div>
+                        {{ end }}
+                      </a>
+                    </article>
+                  {{ end }}
+                </div>
+              {{ end }}
+            </div>
+
+            {{ if compare.Ge $section_count (math.Add $n_posts 1) }}
+              <aside class="homepage-posts__more">
+                <h3>{{ lang.Translate "more" }}</h3>
+                <ul>
+                  {{ range (collections.First 5 (collections.After $n_posts $section)) }}
+                    <li>
+                      <a href="{{ .RelPermalink }}" class="link dim">{{ .Title }}</a>
+                      <span class="homepage-posts__date">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</span>
+                    </li>
+                  {{ end }}
+                </ul>
+                <a class="homepage-posts__all" href="/posts/">{{ lang.Translate "readMore" | compare.Default "View all posts" }}</a>
+              </aside>
+            {{ end }}
           </div>
         {{ end }}
-      </section>
-
-      {{ if compare.Ge $section_count (math.Add $n_posts 1) }}
-        <section class="w-100">
-          <h1 class="f3">{{ lang.Translate "more" }}</h1>
-          {{ range (collections.First 4 (collections.After $n_posts $section))  }}
-            <h2 class="f5 fw4 mb4 dib {{ compare.Conditional (compare.Eq $.Site.Language.LanguageDirection "rtl") "ml3" "mr3" }}">
-              <a href="{{ .RelPermalink }}" class="link black dim">
-                {{ .Title }}
-              </a>
-            </h2>
-          {{ end }}
-        </section>
-      {{ end }}
-
-    </div>
+      </div>
+    </section>
   {{ end }}
 {{ end }}

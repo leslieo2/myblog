@@ -4,9 +4,6 @@
     &copy; {{ with .Site.Copyright | compare.Default .Site.Title }} {{ . | safe.HTML }} {{ now.Format "2006"}} {{ end }}
   </a>
     <div class="flex items-center">
-      <div class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3">
-        Contact Me: <a href="mailto:ly624928214@gmail.com" class="white-70 hover-white no-underline">ly624928214@gmail.com</a>
-      </div>
       {{ partials.IncludeCached "social/follow.html" . }}
     </div>
   </div>

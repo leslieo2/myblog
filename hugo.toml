@@ -2,3 +2,42 @@ baseURL = 'https://leslieo2.github.io/'
 languageCode = 'en-us'
 title = 'Leslie Tech Notes'
 theme = "ananke"
+
+[params]
+  custom_css = ["homepage.css"]
+
+  [params.hero]
+    badge = "Systems / Agents / DX"
+    title = "Practical notes on building autonomous tooling"
+    description = "Shipping AI-native developer experiences, wrangling distributed systems, and sharing lessons from open source work."
+    primary_label = "Read the latest posts"
+    primary_url = "/posts/"
+    secondary_label = "Explore projects"
+    secondary_url = "#projects"
+
+    [[params.hero.links]]
+      label = "GitHub"
+      url = "https://github.com/leslieo2"
+      external = true
+
+    [[params.hero.links]]
+      label = "Agent Playbook"
+      url = "https://github.com/leslieo2/LangGraph-Mastery-Playbook"
+      external = true
+
+    [[params.hero.links]]
+      label = "Say hi"
+      url = "mailto:ly624928214@gmail.com"
+      external = false
+
+    [[params.hero.highlights]]
+      label = "Current focus"
+      value = "LangGraph automation & AI infra"
+
+    [[params.hero.highlights]]
+      label = "Stack"
+      value = "Java, Typescript, Python, Langgraph"
+
+    [[params.hero.highlights]]
+      label = "Location"
+      value = "Shanghai, China"
