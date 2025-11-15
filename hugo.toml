@@ -4,6 +4,10 @@ title = 'Leslie Liu - Tech Notes'
 theme = "ananke"
 
 [params]
+  # Set to the domain tracked in Plausible (e.g., "leslieo2.github.io")
+  plausibleDomain = ""
+  # If using Plausible's custom script snippet, set the script URL here (overrides plausibleDomain)
+  plausibleCustomScriptURL = "https://plausible.io/js/pa-nSIvRlwPhPEF4w2fz0Go6.js"
   custom_css = ["homepage.css"]
 
   [params.hero]
