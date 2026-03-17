@@ -1,6 +1,6 @@
 baseURL = 'https://leslieo2.github.io/'
 languageCode = 'en-us'
-title = 'Leslie Liu - Tech Notes'
+title = 'Leslie Liu'
 theme = "ananke"
 
 [params]
@@ -12,7 +12,7 @@ theme = "ananke"
 
   [params.hero]
     badge = "LLM / Agents / Backend"
-    title = "Leslie Liu - LLM & Software Engineer"
+    title = "Leslie Liu"
     description = "Building reliable multi-agent systems, optimizing cloud-native backends, and sharing insights from production AI workflows. 4+ years shipping scalable services at Autodesk and leading open-source agent projects."
     primary_label = "Read the latest posts"
     primary_url = "/posts/"

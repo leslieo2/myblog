@@ -1,9 +1,9 @@
 ---
-title: "Leslie Liu - Tech Notes"
-description: "LLM & Software Engineer - Building reliable multi-agent systems and cloud-native backends"
+title: "Leslie Liu"
+description: "Building reliable multi-agent systems and cloud-native backends"
 ---
 
-# Engineering notes & agent workflows
+# Leslie Liu
 
 I'm Leslie Liu, a software engineer with 4+ years of experience building production systems at Autodesk and leading open-source agent projects. I specialize in LLM engineering, multi-agent orchestration with LangGraph, and cloud-native backend development.
 
