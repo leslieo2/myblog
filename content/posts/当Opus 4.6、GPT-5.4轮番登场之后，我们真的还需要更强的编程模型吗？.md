@@ -1,5 +1,6 @@
 +++
 title = "当 Opus 4.6、GPT-5.4 轮番登场之后，我们真的还需要更强的编程模型吗？"
+slug = "stronger-coding-models"
 date = "2026-03-17T00:00:00+08:00"
 draft = false
 tags = ["LLM", "Coding Models", "AI Engineering", "Agent", "Software Engineering"]
