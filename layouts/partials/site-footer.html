@@ -1,10 +1,15 @@
-<footer class="{{ .Site.Params.background_color_class | compare.Default "bg-black" }} bottom-0 w-100 pa3" role="contentinfo">
-  <div class="flex justify-between">
-  <a class="f4 fw4 hover-white white-70 dn dib-ns pv2 ph3 no-underline" href="{{ .Site.Home.Permalink }}" >
-    &copy; {{ with .Site.Copyright | compare.Default .Site.Title }} {{ . | safe.HTML }} {{ now.Format "2006"}} {{ end }}
-  </a>
-    <div class="flex items-center">
-      {{ partials.IncludeCached "social/follow.html" . }}
+<footer class="journal-footer" role="contentinfo">
+  <div class="journal-shell journal-footer__inner">
+    <div>
+      <a class="journal-footer__brand" href="{{ .Site.Home.Permalink }}">{{ .Site.Title }}</a>
+      <p class="journal-footer__copy">&copy; {{ now.Format "2006" }} {{ with .Site.Copyright | compare.Default .Site.Title }}{{ . | safe.HTML }}{{ end }}.</p>
+    </div>
+    <div class="journal-footer__links">
+      {{ if .Site.Menus.main }}
+        {{ range .Site.Menus.main }}
+          <a href="{{ .URL }}">{{ .Name }}</a>
+        {{ end }}
+      {{ end }}
     </div>
   </div>
 </footer>

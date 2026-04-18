@@ -1,121 +1,64 @@
 {{ define "main" }}
   {{ $hero := site.Params.hero }}
-  <section class="homepage-hero ph3 ph5-l pv5 center mw9">
-    <div class="homepage-hero__grid">
-      <div class="homepage-hero__intro">
-        {{ with $hero.badge }}
-          <p class="homepage-eyebrow">{{ . }}</p>
-        {{ end }}
-        <h1 class="homepage-title">
-          {{ with $hero.title }}
-            {{ . }}
-          {{ else }}
-            {{ .Site.Title }}
+  {{ $mainSections := site.Params.mainSections | compare.Default (collections.Slice "post") }}
+  {{ $section := collections.Where $.Site.RegularPages "Section" "in" $mainSections }}
+  {{ $featuredPost := collections.First 1 $section }}
+  <section class="journal-home journal-home--hero">
+    <div class="journal-shell">
+      <div class="journal-hero">
+        <div class="journal-hero__copy">
+          {{ with $hero.badge }}
+            <p class="journal-kicker">{{ . }}</p>
           {{ end }}
-        </h1>
-        {{ with $hero.description }}
-          <p class="homepage-lede">{{ . }}</p>
-        {{ end }}
-        {{ with $hero.links }}
-          <ul class="homepage-hero__links" role="list">
-            {{ range . }}
-              {{ $external := compare.Default false .external }}
-              <li>
-                <a class="hero-link" href="{{ .url }}" {{ if $external }}target="_blank" rel="noopener"{{ end }}>
-                  <span>{{ .label }}</span>
-                  {{ if $external }}
-                    <span class="hero-link__icon" aria-hidden="true">↗</span>
-                  {{ end }}
-                </a>
-              </li>
+          <h1 class="journal-home__title">
+            Where Logic Meets Lyricism.
+          </h1>
+          {{ with $hero.description }}
+            <p class="journal-home__lede">{{ . }}</p>
+          {{ end }}
+          <div class="journal-actions">
+            {{ with $hero.primary_url }}
+              <a class="journal-button journal-button--primary" href="{{ . }}">{{ $hero.primary_label | compare.Default "Read more" }}</a>
             {{ end }}
-          </ul>
-        {{ end }}
-        <div class="homepage-hero__actions">
-          {{ with $hero.primary_url }}
-            <a class="hero-btn hero-btn--primary" href="{{ . }}">{{ $hero.primary_label | compare.Default "Read more" }}</a>
-          {{ end }}
-          {{ with $hero.secondary_url }}
-            <a class="hero-btn hero-btn--ghost" href="{{ . }}">{{ $hero.secondary_label | compare.Default "More projects" }}</a>
-          {{ end }}
+          </div>
         </div>
-      </div>
 
-      <div class="homepage-hero__panel">
-        <article class="homepage-hero__card f4 lh-copy {{ $.Param "text_color" | compare.Default "mid-gray" }}">
-          <div class="homepage-card__body nested-links">
-            {{ .Content }}
-          </div>
-        </article>
-
-        {{ with $hero.highlights }}
-          <div class="homepage-hero__highlights" aria-label="Current focus areas">
-            {{ range . }}
-              <div class="hero-highlight">
-                <span class="hero-highlight__label">{{ .label }}</span>
-                <p class="hero-highlight__value">{{ .value }}</p>
-              </div>
+        <div class="journal-hero__figure" aria-hidden="true">
+          <div class="journal-hero__image{{ with $hero.image }} journal-hero__image--photo{{ end }}">
+            {{ with $hero.image }}
+              <img src="{{ . }}" alt="" loading="eager" decoding="async"/>
             {{ end }}
           </div>
-        {{ end }}
+        </div>
       </div>
     </div>
   </section>
 
-  {{ with site.Data.projects }}
-    <section id="projects" class="homepage-projects pv5 ph3 ph5-l bg-near-white">
-      <div class="center mw9">
-        <div class="section-header">
-          <p class="homepage-eyebrow">Open Source</p>
-          <h2 class="homepage-section-title">Projects & contributions</h2>
-          <p class="section-description">Impactful tooling and experiments that keep improving developer + agent workflows.</p>
+  <section class="journal-home journal-home--intro">
+    <div class="journal-shell journal-intro">
+      <div class="journal-intro__content">
+        <div class="journal-section-heading">
+          <span>Chapter I</span>
+          <h2>The engineer's path</h2>
         </div>
-
-        <div class="projects-groups">
-          {{ $groups := slice (dict "title" "Maintainer projects" "items" .authored "badge" "Author") (dict "title" "Collabs & contributions" "items" .contributed "badge" "Contributor") }}
-          {{ range $groups }}
-            {{ $items := index . "items" }}
-            {{ if gt (len $items) 0 }}
-              <article class="projects-card">
-                <div class="projects-card__header">
-                  <span class="projects-card__badge">{{ index . "badge" }}</span>
-                  <h3 class="projects-card__title">{{ index . "title" }}</h3>
-                </div>
-                <ul class="projects-card__list">
-                  {{ range $items }}
-                    <li class="projects-card__item">
-                      <a class="projects-card__link" href="{{ .url }}" target="_blank" rel="noopener">
-                        <span>{{ .name }}</span>
-                        <span class="projects-card__linkIcon" aria-hidden="true">↗</span>
-                      </a>
-                      <p class="projects-card__summary">{{ .description }}</p>
-                    </li>
-                  {{ end }}
-                </ul>
-              </article>
-            {{ end }}
-          {{ end }}
-        </div>
+        {{ .Content }}
       </div>
-    </section>
-  {{ end }}
+    </div>
+  </section>
 
-  {{ $mainSections := site.Params.mainSections | compare.Default (collections.Slice "post") }}
   {{ $show_recent_posts := site.Params.ananke.show_recent_posts }}
-  {{ $section := collections.Where $.Site.RegularPages "Section" "in" $mainSections }}
   {{ $section_count := len $section }}
 
   {{ if and ($show_recent_posts) (compare.Ge $section_count 1) }}
-    <section class="homepage-posts pv5 ph3 ph5-l">
-      <div class="center mw9">
+    <section class="journal-home journal-home--posts">
+      <div class="journal-shell">
         {{ $n_posts := $.Param "recent_posts_number" | compare.Default 3 }}
         {{ $posts := collections.First $n_posts $section }}
         {{ $posts_len := len $posts }}
 
-        <div class="section-header">
-          <p class="homepage-eyebrow">Latest on the blog</p>
-          <h2 class="homepage-section-title">Fresh reads</h2>
-          <p class="section-description">Deep dives, debugging logs, and practical ways to put autonomous systems in production.</p>
+        <div class="journal-section-heading">
+          <span>Chapter II</span>
+          <h2>Fresh reads</h2>
         </div>
 
         {{ if gt $posts_len 0 }}
@@ -125,29 +68,29 @@
             {{ $rest = collections.After 1 $posts }}
           {{ end }}
 
-          <div class="homepage-posts__grid">
-            <div class="homepage-posts__featured">
+          <div class="journal-posts-grid">
+            <div class="journal-posts-primary">
               {{ with $featured }}
                 {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
                 {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 220 }}
                 {{ $tags := .Params.tags | default (slice) }}
                 {{ $categories := .Params.categories | default (slice) }}
-                <article class="post-card post-card--featured">
-                  <a class="post-card__link" href="{{ .RelPermalink }}">
-                    <div class="post-card__meta">
+                <article class="journal-post-card journal-post-card--featured">
+                  <a class="journal-post-card__link" href="{{ .RelPermalink }}">
+                    <div class="journal-post-card__meta">
                       {{ if gt (len $categories) 0 }}
-                        <span class="post-card__pill">{{ index $categories 0 }}</span>
+                        <span class="journal-post-card__pill">{{ index $categories 0 }}</span>
                       {{ end }}
                       <span>{{ .Date.Format "Jan 2, 2006" }}</span>
                       <span aria-hidden="true">·</span>
                       <span>{{ .ReadingTime }} min read</span>
                     </div>
-                    <h3 class="post-card__title">{{ .Title }}</h3>
-                    <p class="post-card__summary">{{ $summary }}</p>
+                    <h3>{{ .Title }}</h3>
+                    <p>{{ $summary }}</p>
                     {{ if gt (len $tags) 0 }}
-                      <div class="post-card__tags">
+                      <div class="journal-post-card__tags">
                         {{ range (collections.First 3 $tags) }}
-                          <span class="post-card__tag">{{ . }}</span>
+                          <span>{{ . }}</span>
                         {{ end }}
                       </div>
                     {{ end }}
@@ -156,24 +99,24 @@
               {{ end }}
 
               {{ if gt (len $rest) 0 }}
-                <div class="homepage-posts__list">
+                <div class="journal-post-list">
                   {{ range $rest }}
                     {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
                     {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 150 }}
                     {{ $tags := .Params.tags | default (slice) }}
-                    <article class="post-card post-card--compact">
-                      <a class="post-card__link" href="{{ .RelPermalink }}">
-                        <div class="post-card__meta">
+                    <article class="journal-post-card">
+                      <a class="journal-post-card__link" href="{{ .RelPermalink }}">
+                        <div class="journal-post-card__meta">
                           <span>{{ .Date.Format "Jan 2, 2006" }}</span>
                           <span aria-hidden="true">·</span>
                           <span>{{ .ReadingTime }} min read</span>
                         </div>
-                        <h3 class="post-card__title">{{ .Title }}</h3>
-                        <p class="post-card__summary">{{ $summary }}</p>
+                        <h3>{{ .Title }}</h3>
+                        <p>{{ $summary }}</p>
                         {{ if gt (len $tags) 0 }}
-                          <div class="post-card__tags">
+                          <div class="journal-post-card__tags">
                             {{ range (collections.First 2 $tags) }}
-                              <span class="post-card__tag">{{ . }}</span>
+                              <span>{{ . }}</span>
                             {{ end }}
                           </div>
                         {{ end }}
@@ -185,22 +128,36 @@
             </div>
 
             {{ if compare.Ge $section_count (math.Add $n_posts 1) }}
-              <aside class="homepage-posts__more">
+              <aside class="journal-posts-aside">
+                <span>The margins</span>
                 <h3>{{ lang.Translate "more" }}</h3>
                 <ul>
                   {{ range (collections.First 5 (collections.After $n_posts $section)) }}
                     <li>
-                      <a href="{{ .RelPermalink }}" class="link dim">{{ .Title }}</a>
-                      <span class="homepage-posts__date">{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</span>
+                      <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+                      <span>{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</span>
                     </li>
                   {{ end }}
                 </ul>
-                <a class="homepage-posts__all" href="/posts/">{{ lang.Translate "readMore" | compare.Default "View all posts" }}</a>
+                <a class="journal-button journal-button--secondary" href="/posts/">{{ lang.Translate "readMore" | compare.Default "View all posts" }}</a>
               </aside>
             {{ end }}
           </div>
         {{ end }}
       </div>
     </section>
+  {{ end }}
+
+  {{ with $featuredPost }}
+    {{ $post := index . 0 }}
+    {{ if $post }}
+      <section class="journal-home journal-home--closing">
+        <div class="journal-shell journal-closing">
+          <span>Final Thought</span>
+          <p>When tools grow stronger, the harder task is to remain human.</p>
+          <a href="{{ $post.RelPermalink }}">Continue with “{{ $post.Title }}”</a>
+        </div>
+      </section>
+    {{ end }}
   {{ end }}
 {{ end }}

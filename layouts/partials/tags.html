@@ -1,0 +1,7 @@
+{{ with .GetTerms "tags" }}
+  <div class="journal-tags" aria-label="Tags">
+    {{ range . }}
+      <a href="{{ .RelPermalink }}" class="journal-tag">{{ .LinkTitle }}</a>
+    {{ end }}
+  </div>
+{{ end }}

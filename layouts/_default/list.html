@@ -1,0 +1,35 @@
+{{ define "main" }}
+  {{ $pages := .Paginator.Pages }}
+  {{ $compactList := le (len $pages) 3 }}
+  <article class="journal-list-page">
+    <header class="journal-list-hero">
+      <div class="journal-shell">
+        <p class="journal-kicker">Archive</p>
+        <h1>{{ .Title }}</h1>
+        {{ with .Description }}
+          <p>{{ . }}</p>
+        {{ else }}
+          <p>{{ .Content | plainify | truncate 180 }}</p>
+        {{ end }}
+      </div>
+    </header>
+    <section class="journal-shell journal-list-grid{{ if $compactList }} journal-list-grid--compact{{ end }}">
+      {{ range $pages }}
+        <article class="journal-list-card">
+          <a href="{{ .RelPermalink }}">
+            <div class="journal-post-card__meta">
+              <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+              <span aria-hidden="true">·</span>
+              <span>{{ .ReadingTime }} min read</span>
+            </div>
+            <h2>{{ .Title }}</h2>
+            <p>{{ .Params.description | compare.Default (.Summary | plainify) | strings.TrimSpace | truncate 170 }}</p>
+          </a>
+        </article>
+      {{ end }}
+    </section>
+    <div class="journal-shell journal-pagination">
+      {{- template "_internal/pagination.html" . -}}
+    </div>
+  </article>
+{{ end }}

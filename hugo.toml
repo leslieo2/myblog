@@ -4,6 +4,10 @@ title = 'Leslie Liu'
 theme = "ananke"
 
 [params]
+  author = "Leslie Liu"
+  description = "Essays on agent systems, backend craft, and the friction between engineering and human narrative."
+  body_classes = "theme-journal bg-near-white"
+  background_color_class = "bg-transparent"
   # Set to the domain tracked in Plausible (e.g., "leslieo2.github.io")
   plausibleDomain = ""
   # If using Plausible's custom script snippet, set the script URL here (overrides plausibleDomain)
@@ -11,42 +15,35 @@ theme = "ananke"
   custom_css = ["homepage.css"]
 
   [params.hero]
-    badge = "LLM / Agents / Backend"
     title = "Leslie Liu"
-    description = "Building reliable multi-agent systems, optimizing cloud-native backends, and sharing insights from production AI workflows. 4+ years shipping scalable services at Autodesk and leading open-source agent projects."
     primary_label = "Read the latest posts"
     primary_url = "/posts/"
-    secondary_label = "Explore projects"
-    secondary_url = "#projects"
+    image = "/images/hero-portrait.png"
+    secondary_label = "Visit GitHub"
+    secondary_url = "https://github.com/leslieo2"
 
     [[params.hero.links]]
       label = "GitHub"
       url = "https://github.com/leslieo2"
       external = true
 
-    [[params.hero.links]]
-      label = "LieGraph Game"
-      url = "https://github.com/leslieo2/LieGraph"
-      external = true
+[menu]
+  [[menu.main]]
+    name = "Essays"
+    url = "/posts/"
+    weight = 10
 
-    [[params.hero.links]]
-      label = "LangGraph Playbook"
-      url = "https://github.com/leslieo2/LangGraph-Mastery-Playbook"
-      external = true
+  [[menu.main]]
+    name = "GitHub"
+    url = "https://github.com/leslieo2"
+    weight = 20
 
-    [[params.hero.links]]
-      label = "Contact"
-      url = "mailto:ly624928214@gmail.com"
-      external = false
+  [[menu.main]]
+    name = "About"
+    url = "/"
+    weight = 30
 
-    [[params.hero.highlights]]
-      label = "Current focus"
-      value = "Multi-agent orchestration & LangGraph"
-
-    [[params.hero.highlights]]
-      label = "Stack"
-      value = "Python, TypeScript, Java, AWS"
-
-    [[params.hero.highlights]]
-      label = "Experience"
-      value = "4+ years backend & AI engineering"
+  [[menu.main]]
+    name = "RSS"
+    url = "/index.xml"
+    weight = 40

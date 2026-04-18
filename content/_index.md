@@ -3,15 +3,4 @@ title: "Leslie Liu"
 description: "Building reliable multi-agent systems and cloud-native backends"
 ---
 
-# Leslie Liu
-
-I'm Leslie Liu, a software engineer with 4+ years of experience building production systems at Autodesk and leading open-source agent projects. I specialize in LLM engineering, multi-agent orchestration with LangGraph, and cloud-native backend development.
-
-## What you'll find here
-
-- **Production AI workflows** - Lessons from shipping reliable multi-agent systems
-- **LangGraph patterns** - Practical recipes for agent orchestration and state management
-- **Backend architecture** - Cloud-native services, performance optimization, and distributed systems
-- **Open source projects** - Insights from building LieGraph, LangGraph Playbook, and other agent tools
-
-Browse the latest posts below or explore the open source projects I maintain and contribute to.
+I previously worked at Autodesk. Recently, I have been building a few open-source projects. I hold a master's degree in computer science from Southeast University and a master's degree in information systems from Monash University.

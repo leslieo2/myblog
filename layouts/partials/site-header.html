@@ -1,0 +1,15 @@
+<header class="journal-header">
+  <div class="journal-shell journal-header__inner">
+    <a class="journal-header__brand" href="{{ .Site.Home.RelPermalink }}">
+      <span>{{ .Site.Title }}</span>
+    </a>
+    {{ if .Site.Menus.main }}
+      <nav class="journal-header__nav" role="navigation" aria-label="Primary">
+        {{ range .Site.Menus.main }}
+          {{ $isCurrent := or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}
+          <a class="{{ if $isCurrent }}is-active{{ end }}" href="{{ .URL }}">{{ .Name }}</a>
+        {{ end }}
+      </nav>
+    {{ end }}
+  </div>
+</header>
