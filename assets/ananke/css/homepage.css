@@ -145,11 +145,9 @@ body.theme-journal main {
   letter-spacing: -0.03em;
 }
 
-.journal-home__title span {
-  display: block;
-  margin-top: 1rem;
+.journal-home__initial {
   color: var(--journal-accent);
-  font-style: italic;
+  text-shadow: 0 0 0.01em rgba(168, 55, 52, 0.08);
 }
 
 .journal-home__lede,
