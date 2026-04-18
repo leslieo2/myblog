@@ -139,10 +139,15 @@ body.theme-journal main {
 
 .journal-home__title {
   margin: 0;
-  max-width: 10.5ch;
+  max-width: none;
   font-size: clamp(2.55rem, 6.4vw, 5.35rem);
   line-height: 1;
   letter-spacing: -0.03em;
+}
+
+.journal-home__line {
+  display: block;
+  white-space: nowrap;
 }
 
 .journal-home__initial {
@@ -176,8 +181,10 @@ body.theme-journal main {
   padding: 0.9rem 1.45rem;
   border: 1px solid transparent;
   border-radius: 0.5rem;
-  font-size: 1rem;
-  font-weight: 600;
+  font-family: "Newsreader", serif;
+  font-size: 1.12rem;
+  font-style: italic;
+  font-weight: 520;
   text-decoration: none;
   transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease;
 }
@@ -922,6 +929,10 @@ body.theme-journal main {
   .journal-home__title {
     max-width: 9.5ch;
     font-size: clamp(2.35rem, 12vw, 3.95rem);
+  }
+
+  .journal-home__line {
+    white-space: normal;
   }
 
   .journal-section-heading h2,
