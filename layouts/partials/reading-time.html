@@ -1,0 +1,18 @@
+{{ $page := . }}
+{{ $plainContent := $page.Plain | strings.TrimSpace }}
+{{ $hasCJK := gt (len (findRE "[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}]" $plainContent 1)) 0 }}
+{{ $readingTime := $page.ReadingTime }}
+
+{{ if $hasCJK }}
+  {{ $readingTime = div (float (len (findRE "." $plainContent))) 450 }}
+  {{ $readingTime = math.Ceil $readingTime }}
+  {{ $readingTime = int (math.Max 1 $readingTime) }}
+{{ else }}
+  {{ with $page.Site.Params.reading_speed }}
+    {{ $readingTime = div (float $page.WordCount) . }}
+    {{ $readingTime = math.Ceil $readingTime }}
+    {{ $readingTime = int $readingTime }}
+  {{ end }}
+{{ end }}
+
+{{ return (printf "%s" (lang.Translate "readingTime" $readingTime)) }}

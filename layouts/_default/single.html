@@ -17,6 +17,9 @@
           <p class="journal-article__description">{{ . }}</p>
         {{ end }}
         <div class="journal-article__meta">
+          {{ $plainContent := .Plain | strings.TrimSpace }}
+          {{ $hasCJK := gt (len (findRE "[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}]" $plainContent 1)) 0 }}
+          {{ $readingTimeText := partials.Include "reading-time.html" . }}
           {{ with .Params.author | compare.Default .Site.Params.author }}
             <span>
               {{- if reflect.IsSlice . -}}
@@ -32,14 +35,10 @@
             </time>
           {{ end }}
           {{ if (or (compare.Eq (.Param "show_reading_time") true) (compare.Eq $section.Params.show_reading_time true) )}}
-            {{ $readingTime := .ReadingTime }}
-            {{ with .Site.Params.reading_speed }}
-              {{ $readingTime = div (float $.WordCount) . }}
-              {{ $readingTime = math.Ceil $readingTime }}
-              {{ $readingTime = int $readingTime }}
+            <span>{{ $readingTimeText }}</span>
+            {{ if not $hasCJK }}
+              <span>{{ lang.Translate "wordCount" .WordCount }}</span>
             {{ end }}
-            <span>{{ lang.Translate "readingTime" $readingTime }}</span>
-            <span>{{ lang.Translate "wordCount" .WordCount }}</span>
           {{ end }}
         </div>
       </div>

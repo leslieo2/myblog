@@ -76,6 +76,7 @@
                 {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 220 }}
                 {{ $tags := .Params.tags | default (slice) }}
                 {{ $categories := .Params.categories | default (slice) }}
+                {{ $readingTimeText := partials.Include "reading-time.html" . }}
                 <article class="journal-post-card journal-post-card--featured">
                   <a class="journal-post-card__link" href="{{ .RelPermalink }}">
                     <div class="journal-post-card__meta">
@@ -84,7 +85,7 @@
                       {{ end }}
                       <span>{{ .Date.Format "Jan 2, 2006" }}</span>
                       <span aria-hidden="true">·</span>
-                      <span>{{ .ReadingTime }} min read</span>
+                      <span>{{ $readingTimeText }}</span>
                     </div>
                     <h3>{{ .Title }}</h3>
                     <p>{{ $summary }}</p>
@@ -105,12 +106,13 @@
                     {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
                     {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 150 }}
                     {{ $tags := .Params.tags | default (slice) }}
+                    {{ $readingTimeText := partials.Include "reading-time.html" . }}
                     <article class="journal-post-card">
                       <a class="journal-post-card__link" href="{{ .RelPermalink }}">
                         <div class="journal-post-card__meta">
                           <span>{{ .Date.Format "Jan 2, 2006" }}</span>
                           <span aria-hidden="true">·</span>
-                          <span>{{ .ReadingTime }} min read</span>
+                          <span>{{ $readingTimeText }}</span>
                         </div>
                         <h3>{{ .Title }}</h3>
                         <p>{{ $summary }}</p>
@@ -134,9 +136,10 @@
                 <h3>{{ lang.Translate "more" }}</h3>
                 <ul>
                   {{ range (collections.First 5 (collections.After $n_posts $section)) }}
+                    {{ $readingTimeText := partials.Include "reading-time.html" . }}
                     <li>
                       <a href="{{ .RelPermalink }}">{{ .Title }}</a>
-                      <span>{{ .Date.Format "Jan 2, 2006" }} · {{ .ReadingTime }} min read</span>
+                      <span>{{ .Date.Format "Jan 2, 2006" }} · {{ $readingTimeText }}</span>
                     </li>
                   {{ end }}
                 </ul>

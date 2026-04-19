@@ -15,12 +15,13 @@
     </header>
     <section class="journal-shell journal-list-grid{{ if $compactList }} journal-list-grid--compact{{ end }}">
       {{ range $pages }}
+        {{ $readingTimeText := partials.Include "reading-time.html" . }}
         <article class="journal-list-card">
           <a href="{{ .RelPermalink }}">
             <div class="journal-post-card__meta">
               <span>{{ .Date.Format "Jan 2, 2006" }}</span>
               <span aria-hidden="true">·</span>
-              <span>{{ .ReadingTime }} min read</span>
+              <span>{{ $readingTimeText }}</span>
             </div>
             <h2>{{ .Title }}</h2>
             <p>{{ .Params.description | compare.Default (.Summary | plainify) | strings.TrimSpace | truncate 170 }}</p>

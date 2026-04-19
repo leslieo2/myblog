@@ -1,5 +1,6 @@
 {{ $featured_image := partials.Include "func/GetFeaturedImage.html" . }}
 {{ $summary := .Summary | replaceRE "(?s)Table of Contents.*" "" | plainify | strings.TrimSpace | truncate 170 }}
+{{ $readingTimeText := partials.Include "reading-time.html" . }}
 <article class="journal-list-card">
   <a href="{{ .RelPermalink }}">
     {{ if $featured_image }}
@@ -8,7 +9,7 @@
     <div class="journal-post-card__meta">
       <span>{{ .Date.Format "Jan 2, 2006" }}</span>
       <span aria-hidden="true">·</span>
-      <span>{{ .ReadingTime }} min read</span>
+      <span>{{ $readingTimeText }}</span>
     </div>
     <h2>{{ .Title }}</h2>
     <p>{{ $summary }}</p>
