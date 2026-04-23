@@ -9,9 +9,15 @@
   --journal-secondary: #7a580f;
   --journal-tertiary: #596058;
   --journal-shadow: 0 20px 50px rgba(28, 28, 25, 0.06);
+  --journal-shell-max: 1180px;
   --journal-gutter: 1.25rem;
   --journal-grid-gap: clamp(2rem, 4vw, 4.5rem);
+  --journal-hero-media-min: 20rem;
+  --journal-posts-main-column: 1.9fr;
+  --journal-posts-side-column: 0.8fr;
+  --journal-aside-min: 16.875rem;
   --journal-reading-max: 46rem;
+  --journal-article-aside-width: 17rem;
   --journal-reading-inset: 1.1rem;
 }
 
@@ -47,8 +53,8 @@ body.theme-journal main {
 }
 
 .journal-shell {
-  width: calc(100vw - (var(--journal-gutter) * 2));
-  max-width: 1180px;
+  width: min(var(--journal-shell-max), calc(100% - (var(--journal-gutter) * 2)));
+  max-width: var(--journal-shell-max);
   margin: 0 auto;
 }
 
@@ -135,7 +141,7 @@ body.theme-journal main {
 
 .journal-hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.8fr);
+  grid-template-columns: minmax(0, 1.1fr) minmax(var(--journal-hero-media-min), var(--journal-posts-side-column));
   gap: var(--journal-grid-gap);
   align-items: center;
 }
@@ -162,7 +168,7 @@ body.theme-journal main {
 
 .journal-home__line {
   display: block;
-  white-space: nowrap;
+  white-space: normal;
 }
 
 .journal-home__initial {
@@ -253,7 +259,7 @@ body.theme-journal main {
 
 .journal-hero__figure {
   position: relative;
-  min-height: 32rem;
+  min-height: clamp(22rem, 42vw, 32rem);
   align-self: stretch;
 }
 
@@ -366,8 +372,8 @@ body.theme-journal main {
   position: absolute;
   top: 0;
   left: 50%;
-  width: calc(100vw - (var(--journal-gutter) * 2));
-  max-width: 1180px;
+  width: min(var(--journal-shell-max), calc(100% - (var(--journal-gutter) * 2)));
+  max-width: var(--journal-shell-max);
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, rgba(122, 88, 15, 0.14) 18%, rgba(122, 88, 15, 0.32) 50%, rgba(122, 88, 15, 0.14) 82%, transparent 100%);
   transform: translateX(-50%);
@@ -378,10 +384,7 @@ body.theme-journal main {
 }
 
 .journal-intro__content {
-  max-width: 46rem;
-}
-
-.journal-intro__content {
+  max-width: var(--journal-reading-max);
   font-size: 1.12rem;
   line-height: 1.88;
   color: var(--journal-muted);
@@ -572,7 +575,7 @@ body.theme-journal main {
 
 .journal-posts-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.9fr) minmax(270px, 0.8fr);
+  grid-template-columns: minmax(0, var(--journal-posts-main-column)) minmax(var(--journal-aside-min), var(--journal-posts-side-column));
   gap: var(--journal-grid-gap);
   align-items: start;
 }
@@ -730,10 +733,17 @@ body.theme-journal main {
   padding: 4.4rem 0 4.9rem;
 }
 
+.journal-home--closing .journal-shell {
+  display: grid;
+  grid-template-columns: minmax(0, var(--journal-posts-main-column)) minmax(var(--journal-aside-min), var(--journal-posts-side-column));
+  gap: var(--journal-grid-gap);
+}
+
 .journal-closing {
-  max-width: calc(var(--journal-reading-max) + var(--journal-reading-inset));
+  grid-column: 1;
+  max-width: none;
   margin: 0;
-  padding: 2rem 1.75rem 2rem var(--journal-reading-inset);
+  padding: 2rem 1.75rem;
   text-align: left;
   background: rgba(255, 255, 255, 0.42);
   box-shadow: 0 18px 42px rgba(28, 28, 25, 0.04);
@@ -766,7 +776,7 @@ body.theme-journal main {
 
 .journal-article__hero-grid--with-aside {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 17rem;
+  grid-template-columns: minmax(0, 1fr) var(--journal-article-aside-width);
   gap: 3rem;
   align-items: end;
 }
@@ -823,7 +833,7 @@ body.theme-journal main {
 
 .journal-article__layout--with-aside {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 17rem;
+  grid-template-columns: minmax(0, 1fr) var(--journal-article-aside-width);
   gap: 3rem;
   align-items: start;
 }
@@ -1009,16 +1019,27 @@ body.theme-journal main {
   .journal-footer__links {
     justify-content: flex-start;
   }
+
+  .journal-home--closing .journal-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 1200px) {
+  .journal-hero {
+    grid-template-columns: minmax(0, 1fr) minmax(var(--journal-aside-min), 0.72fr);
+    gap: clamp(1.5rem, 3vw, 2.5rem);
+  }
+
+  .journal-hero__figure {
+    min-height: clamp(20rem, 40vw, 27rem);
+  }
 }
 
 @media (max-width: 720px) {
   :root {
     --journal-gutter: 0.75rem;
     --journal-reading-inset: 0.85rem;
-  }
-
-  .journal-shell {
-    max-width: 1180px;
   }
 
   .journal-header__inner {
@@ -1038,6 +1059,11 @@ body.theme-journal main {
 
   .journal-home__line {
     white-space: normal;
+  }
+
+  .journal-hero__image--photo img {
+    transform: scale(1.04);
+    object-position: 52% 16%;
   }
 
   .journal-section-heading h2,
