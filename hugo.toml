@@ -6,6 +6,7 @@ theme = "ananke"
 [params]
   author = "Leslie Liu"
   description = "Essays on agent systems, backend craft, and the friction between engineering and human narrative."
+  favicon = "/favicon.svg"
   body_classes = "theme-journal bg-near-white"
   background_color_class = "bg-transparent"
   # Set to the domain tracked in Plausible (e.g., "leslieo2.github.io")
