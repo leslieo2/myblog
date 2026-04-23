@@ -106,10 +106,14 @@
                     {{ $rawSummary := .Params.description | compare.Default (.Summary | plainify) }}
                     {{ $summary := $rawSummary | plainify | strings.TrimSpace | truncate 150 }}
                     {{ $tags := .Params.tags | default (slice) }}
+                    {{ $categories := .Params.categories | default (slice) }}
                     {{ $readingTimeText := partials.Include "reading-time.html" . }}
                     <article class="journal-post-card">
                       <a class="journal-post-card__link" href="{{ .RelPermalink }}">
                         <div class="journal-post-card__meta">
+                          {{ if gt (len $categories) 0 }}
+                            <span class="journal-post-card__pill">{{ index $categories 0 }}</span>
+                          {{ end }}
                           <span>{{ .Date.Format "Jan 2, 2006" }}</span>
                           <span aria-hidden="true">·</span>
                           <span>{{ $readingTimeText }}</span>
@@ -156,10 +160,12 @@
     {{ $post := index . 0 }}
     {{ if $post }}
       <section class="journal-home journal-home--closing">
-        <div class="journal-shell journal-closing">
-          <span>Final Thought</span>
-          <p>When tools grow stronger, the harder task is to remain human.</p>
-          <a href="{{ $post.RelPermalink }}">Continue with “{{ $post.Title }}”</a>
+        <div class="journal-shell">
+          <div class="journal-closing">
+            <span>Final Thought</span>
+            <p>When tools grow stronger, the harder task is to remain human.</p>
+            <a href="{{ $post.RelPermalink }}">Continue with “{{ $post.Title }}”</a>
+          </div>
         </div>
       </section>
     {{ end }}
