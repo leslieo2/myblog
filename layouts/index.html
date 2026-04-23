@@ -136,8 +136,7 @@
 
             {{ if compare.Ge $section_count (math.Add $n_posts 1) }}
               <aside class="journal-posts-aside">
-                <span>The margins</span>
-                <h3>{{ lang.Translate "more" }}</h3>
+                <h3>Continue reading</h3>
                 <ul>
                   {{ range (collections.First 5 (collections.After $n_posts $section)) }}
                     {{ $readingTimeText := partials.Include "reading-time.html" . }}

@@ -694,31 +694,39 @@ body.theme-journal main {
 }
 
 .journal-posts-aside {
-  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: 1.7rem;
   background: #f6f3ee;
 }
 
 .journal-posts-aside h3 {
   margin: 0;
   font-size: 2rem;
+  line-height: 1;
 }
 
 .journal-posts-aside ul {
   list-style: none;
-  margin: 1.25rem 0 1.5rem;
+  margin: 1.4rem 0 0;
   padding: 0;
+  flex: 1;
 }
 
 .journal-posts-aside li + li {
-  margin-top: 0.95rem;
-  padding-top: 0.95rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   border-top: 1px solid rgba(128, 118, 102, 0.18);
 }
 
 .journal-posts-aside a {
   display: block;
   color: var(--journal-text);
+  font-family: "Inter", sans-serif;
+  font-size: 1rem;
   font-weight: 600;
+  line-height: 1.2;
   text-decoration: none;
 }
 
@@ -728,9 +736,16 @@ body.theme-journal main {
 
 .journal-posts-aside li span {
   display: block;
-  margin-top: 0.2rem;
+  margin-top: 0.35rem;
   color: var(--journal-muted);
   font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.journal-posts-aside .journal-button {
+  width: 100%;
+  justify-content: flex-start;
+  margin-top: 1.4rem;
 }
 
 .journal-home--closing {
