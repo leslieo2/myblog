@@ -1,12 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Leslie Liu favicon">
   <rect width="64" height="64" rx="16" fill="#f6f3ee"/>
   <path
-    d="M22 12h8v30h16v10H22z"
+    d="M24 13h6.6v26.8h13.8V46H24z"
     fill="#a83734"
   />
   <path
-    d="M18 12h18v5H18zM18 42h30v5H18z"
-    fill="#7a1f1f"
-    opacity="0.18"
+    d="M21 13h12.2v2.8H21zm0 30.2h26v2.8H21z"
+    fill="#a83734"
   />
 </svg>
