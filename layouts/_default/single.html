@@ -8,39 +8,44 @@
   {{ $hasContextualMenu := gt (len (strings.TrimSpace $contextualMenu)) 0 }}
   <article class="journal-article">
     <header class="journal-article__hero">
-      <div class="journal-shell journal-article__hero-inner">
-        {{ with .CurrentSection.Title }}
-          <p class="journal-kicker">{{ . }}</p>
-        {{ end }}
-        <h1>{{ .Title }}</h1>
-        {{ with .Params.description }}
-          <p class="journal-article__description">{{ . }}</p>
-        {{ end }}
-        <div class="journal-article__meta">
-          {{ $plainContent := .Plain | strings.TrimSpace }}
-          {{ $hasCJK := gt (len (findRE "[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}]" $plainContent 1)) 0 }}
-          {{ $readingTimeText := partials.Include "reading-time.html" . }}
-          {{ with .Params.author | compare.Default .Site.Params.author }}
-            <span>
-              {{- if reflect.IsSlice . -}}
-                {{ collections.Delimit . ", " | transform.Markdownify }}
-              {{- else -}}
-                {{ . | transform.Markdownify }}
-              {{- end -}}
-            </span>
+      <div class="journal-shell journal-article__hero-grid{{ if $hasContextualMenu }} journal-article__hero-grid--with-aside{{ end }}">
+        <div class="journal-article__hero-inner">
+          {{ with .CurrentSection.Title }}
+            <p class="journal-kicker">{{ . }}</p>
           {{ end }}
-          {{ if not .Date.IsZero }}
-            <time {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
-              {{ .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) }}
-            </time>
+          <h1>{{ .Title }}</h1>
+          {{ with .Params.description }}
+            <p class="journal-article__description">{{ . }}</p>
           {{ end }}
-          {{ if (or (compare.Eq (.Param "show_reading_time") true) (compare.Eq $section.Params.show_reading_time true) )}}
-            <span>{{ $readingTimeText }}</span>
-            {{ if not $hasCJK }}
-              <span>{{ lang.Translate "wordCount" .WordCount }}</span>
+          <div class="journal-article__meta">
+            {{ $plainContent := .Plain | strings.TrimSpace }}
+            {{ $hasCJK := gt (len (findRE "[\\p{Han}\\p{Hiragana}\\p{Katakana}\\p{Hangul}]" $plainContent 1)) 0 }}
+            {{ $readingTimeText := partials.Include "reading-time.html" . }}
+            {{ with .Params.author | compare.Default .Site.Params.author }}
+              <span>
+                {{- if reflect.IsSlice . -}}
+                  {{ collections.Delimit . ", " | transform.Markdownify }}
+                {{- else -}}
+                  {{ . | transform.Markdownify }}
+                {{- end -}}
+              </span>
             {{ end }}
-          {{ end }}
+            {{ if not .Date.IsZero }}
+              <time {{ fmt.Printf `datetime="%s"` (.Date.Format "2006-01-02T15:04:05Z07:00") | safe.HTMLAttr }}>
+                {{ .Date | time.Format (compare.Default "January 2, 2006" .Site.Params.date_format) }}
+              </time>
+            {{ end }}
+            {{ if (or (compare.Eq (.Param "show_reading_time") true) (compare.Eq $section.Params.show_reading_time true) )}}
+              <span>{{ $readingTimeText }}</span>
+              {{ if not $hasCJK }}
+                <span>{{ lang.Translate "wordCount" .WordCount }}</span>
+              {{ end }}
+            {{ end }}
+          </div>
         </div>
+        {{ if $hasContextualMenu }}
+          <div class="journal-article__hero-aside-spacer" aria-hidden="true"></div>
+        {{ end }}
       </div>
     </header>
 
