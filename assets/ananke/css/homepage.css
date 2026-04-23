@@ -679,11 +679,11 @@ body.theme-journal main {
   min-height: 1.9rem;
   padding: 0.2rem 0.72rem;
   border-radius: 999px;
-  border: 1px solid rgba(128, 118, 102, 0.22);
-  background: rgba(246, 243, 238, 0.88);
-  color: rgba(28, 28, 25, 0.72);
-  font-size: 0.78rem;
-  font-weight: 500;
+  border: 1px solid rgba(128, 118, 102, 0.16);
+  background: rgba(246, 243, 238, 0.52);
+  color: rgba(78, 70, 56, 0.78);
+  font-size: 0.76rem;
+  font-weight: 450;
   line-height: 1;
 }
 
@@ -746,6 +746,10 @@ body.theme-journal main {
   width: 100%;
   justify-content: flex-start;
   margin-top: 1.4rem;
+  border-color: rgba(128, 118, 102, 0.16);
+  background: rgba(255, 255, 255, 0.24);
+  color: rgba(78, 70, 56, 0.92);
+  box-shadow: none;
 }
 
 .journal-home--closing {
@@ -782,7 +786,9 @@ body.theme-journal main {
 .journal-closing a {
   display: inline-block;
   margin-top: 1.15rem;
-  color: var(--journal-secondary);
+  color: rgba(122, 88, 15, 0.82);
+  font-size: 0.98rem;
+  letter-spacing: 0.01em;
   text-decoration: none;
 }
 
