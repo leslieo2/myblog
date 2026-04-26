@@ -1,21 +1,5 @@
-{{ $assets := collections.Slice }}
-
-{{ range collections.Slice "_tachyons.css" "_code.css" "_hugo-internal-templates.css" "_social-icons.css" "_styles.css" }}
-  {{ with resources.Get (fmt.Print "ananke/css/" .) }}
-    {{ $assets = $assets | collections.Append . }}
-  {{ end }}
-{{ end }}
-
-{{ with site.Params.custom_css }}
-  {{ range . }}
-    {{ with resources.Get (fmt.Print "ananke/css/" .) }}
-      {{ $assets = $assets | collections.Append . }}
-    {{ end }}
-  {{ end }}
-{{ end }}
-
-{{ with $assets }}
-  {{ $style := . | resources.Concat "ananke/css/main.css" | resources.Minify }}
+{{ with resources.Get "css/site.css" }}
+  {{ $style := . | resources.Minify }}
   {{ if hugo.IsProduction }}
     {{ $style = $style | resources.Fingerprint }}
   {{ end }}

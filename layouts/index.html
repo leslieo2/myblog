@@ -1,6 +1,6 @@
 {{ define "main" }}
   {{ $hero := site.Params.hero }}
-  {{ $mainSections := site.Params.mainSections | compare.Default (collections.Slice "post") }}
+  {{ $mainSections := site.Params.mainSections | compare.Default (collections.Slice "posts") }}
   {{ $section := collections.Where $.Site.RegularPages "Section" "in" $mainSections }}
   {{ $featuredPost := collections.First 1 $section }}
   <section class="journal-home journal-home--hero">
@@ -27,7 +27,7 @@
         <div class="journal-hero__figure" aria-hidden="true">
           <div class="journal-hero__image{{ with $hero.image }} journal-hero__image--photo{{ end }}">
             {{ with $hero.image }}
-              <img src="{{ . }}" alt="" loading="eager" decoding="async"/>
+              <img src="{{ . }}" alt="Leslie Liu portrait" loading="eager" decoding="async"/>
             {{ end }}
           </div>
         </div>
@@ -47,7 +47,7 @@
     </div>
   </section>
 
-  {{ $show_recent_posts := site.Params.ananke.show_recent_posts }}
+  {{ $show_recent_posts := site.Params.show_recent_posts | compare.Default true }}
   {{ $section_count := len $section }}
 
   {{ if and ($show_recent_posts) (compare.Ge $section_count 1) }}

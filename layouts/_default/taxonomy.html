@@ -1,0 +1,26 @@
+{{ define "main" }}
+  <article class="journal-list-page">
+    <header class="journal-list-hero">
+      <div class="journal-shell">
+        <p class="journal-kicker">Archive</p>
+        <h1>{{ .Title }}</h1>
+      </div>
+    </header>
+    <section class="journal-shell journal-list-grid">
+      {{ range .Pages }}
+        {{ $readingTimeText := partials.Include "reading-time.html" . }}
+        <article class="journal-list-card">
+          <a href="{{ .RelPermalink }}">
+            <div class="journal-post-card__meta">
+              <span>{{ .Date.Format "Jan 2, 2006" }}</span>
+              <span aria-hidden="true">·</span>
+              <span>{{ $readingTimeText }}</span>
+            </div>
+            <h2>{{ .Title }}</h2>
+            <p>{{ .Params.description | compare.Default (.Summary | plainify) | strings.TrimSpace | truncate 170 }}</p>
+          </a>
+        </article>
+      {{ end }}
+    </section>
+  </article>
+{{ end }}

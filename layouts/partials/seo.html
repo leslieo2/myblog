@@ -1,0 +1,170 @@
+{{- $page := . -}}
+{{- $site := .Site -}}
+
+{{/* ---- Description ---- */}}
+{{- $desc := $site.Params.description -}}
+{{- with .Params.description -}}
+  {{- $desc = . -}}
+{{- else -}}
+  {{- if .IsPage -}}
+    {{- $desc = .Summary | plainify | strings.TrimSpace -}}
+  {{- end -}}
+{{- end -}}
+
+{{/* ---- Image for social sharing ---- */}}
+{{- $ogImage := "" -}}
+{{- with .Params.images -}}
+  {{- if reflect.IsSlice . -}}
+    {{- $ogImage = index . 0 -}}
+  {{- else -}}
+    {{- $ogImage = . -}}
+  {{- end -}}
+{{- end -}}
+{{- if not $ogImage -}}
+  {{- with $site.Params.og_image -}}
+    {{- $ogImage = . -}}
+  {{- end -}}
+{{- end -}}
+{{- $ogImageAbs := "" -}}
+{{- with $ogImage -}}
+  {{- $ogImageAbs = . | absURL -}}
+{{- end -}}
+{{- $localeParts := split $site.LanguageCode "-" -}}
+{{- $ogLocale := replace $site.LanguageCode "-" "_" -}}
+{{- if ge (len $localeParts) 2 -}}
+  {{- $ogLocale = printf "%s_%s" (index $localeParts 0 | lower) (index $localeParts 1 | upper) -}}
+{{- end -}}
+
+{{/* ---- Open Graph ---- */}}
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:site_name" content="{{ $site.Title }}">
+<meta property="og:title" content="{{ .Title }}">
+<meta property="og:description" content="{{ $desc }}">
+<meta property="og:locale" content="{{ $ogLocale }}">
+{{- if .IsPage }}
+<meta property="og:type" content="article">
+<meta property="article:section" content="{{ .Section }}">
+<meta property="article:published_time" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
+<meta property="article:modified_time" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" | safeHTML }}">
+{{- range .Params.tags | first 6 }}
+<meta property="article:tag" content="{{ . }}">
+{{- end }}
+{{- else }}
+<meta property="og:type" content="website">
+{{- end }}
+{{- with $ogImageAbs }}
+<meta property="og:image" content="{{ . }}">
+{{- end }}
+
+{{/* ---- Twitter Card ---- */}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ .Title }}">
+<meta name="twitter:description" content="{{ $desc }}">
+{{- with $ogImageAbs }}
+<meta name="twitter:image" content="{{ . }}">
+{{- end }}
+
+{{/* ---- Schema.org microdata ---- */}}
+<meta itemprop="name" content="{{ .Title }}">
+<meta itemprop="description" content="{{ $desc }}">
+{{- if .IsPage }}
+<meta itemprop="datePublished" content="{{ .Date.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta itemprop="dateModified" content="{{ .Lastmod.Format "2006-01-02T15:04:05Z07:00" }}">
+<meta itemprop="wordCount" content="{{ .WordCount }}">
+{{- range .Params.tags | first 6 }}
+<meta itemprop="keywords" content="{{ . }}">
+{{- end }}
+{{- with $ogImageAbs }}
+<meta itemprop="image" content="{{ . }}">
+{{- end }}
+{{- end }}
+
+{{/* ---- JSON-LD Structured Data ---- */}}
+{{- if .IsPage }}
+
+{{- $articleSchema := dict
+  "@context" "https://schema.org"
+  "@type" "Article"
+  "headline" .Title
+  "description" $desc
+  "datePublished" (.Date.Format "2006-01-02T15:04:05-07:00")
+  "dateModified" (.Lastmod.Format "2006-01-02T15:04:05-07:00")
+  "author" (dict
+    "@type" "Person"
+    "name" ($site.Params.author | default $site.Title)
+  )
+  "publisher" (dict
+    "@type" "Person"
+    "name" ($site.Params.author | default $site.Title)
+  )
+  "url" .Permalink
+  "wordCount" .WordCount
+-}}
+{{- with $ogImageAbs }}
+  {{- $articleSchema = merge $articleSchema (dict "image" .) -}}
+{{- end }}
+{{- with .Params.tags }}
+  {{- $articleSchema = merge $articleSchema (dict "keywords" .) -}}
+{{- end }}
+<script type="application/ld+json">{{ $articleSchema | jsonify | safeJS }}</script>
+
+{{- $breadcrumbSchema := dict
+  "@context" "https://schema.org"
+  "@type" "BreadcrumbList"
+  "itemListElement" (slice
+    (dict "@type" "ListItem" "position" 1 "name" "Home" "item" $site.BaseURL)
+    (dict "@type" "ListItem" "position" 2 "name" (.Section | humanize) "item" (printf "%s%s/" $site.BaseURL (.Section | urlize)))
+    (dict "@type" "ListItem" "position" 3 "name" .Title)
+  )
+-}}
+<script type="application/ld+json">{{ $breadcrumbSchema | jsonify | safeJS }}</script>
+
+{{- else if and (not .IsHome) .IsSection }}
+
+{{- $blogSchema := dict
+  "@context" "https://schema.org"
+  "@type" "Blog"
+  "name" .Title
+  "description" $desc
+  "url" .Permalink
+  "author" (dict
+    "@type" "Person"
+    "name" ($site.Params.author | default $site.Title)
+  )
+-}}
+<script type="application/ld+json">{{ $blogSchema | jsonify | safeJS }}</script>
+
+{{- else if .IsHome }}
+
+{{- $personSchema := dict
+  "@context" "https://schema.org"
+  "@type" "Person"
+  "name" $site.Title
+  "description" $desc
+  "url" .Permalink
+  "sameAs" (slice "https://github.com/leslieo2")
+-}}
+<script type="application/ld+json">{{ $personSchema | jsonify | safeJS }}</script>
+
+{{- $webSiteSchema := dict
+  "@context" "https://schema.org"
+  "@type" "WebSite"
+  "name" $site.Title
+  "description" $desc
+  "url" .Permalink
+-}}
+<script type="application/ld+json">{{ $webSiteSchema | jsonify | safeJS }}</script>
+
+{{- end }}
+
+{{/* ---- Pagination links ---- */}}
+{{- if or .IsHome (eq .Kind "section") (eq .Kind "taxonomy") (eq .Kind "term") -}}
+{{- with .Paginator }}
+  {{- if .HasPrev }}
+<link rel="prev" href="{{ .Prev.URL | absURL }}">
+  {{- end }}
+  {{- if .HasNext }}
+<link rel="next" href="{{ .Next.URL | absURL }}">
+  {{- end }}
+{{- end }}
+{{- end }}

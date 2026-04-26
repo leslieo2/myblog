@@ -1,0 +1,20 @@
+{{ define "main" }}
+  <article class="journal-list-page">
+    <header class="journal-list-hero">
+      <div class="journal-shell">
+        <p class="journal-kicker">Index</p>
+        <h1>{{ .Title }}</h1>
+      </div>
+    </header>
+    <section class="journal-shell journal-list-grid journal-list-grid--compact">
+      {{ range .Data.Terms.Alphabetical }}
+        <article class="journal-list-card">
+          <a href="{{ .Page.RelPermalink }}">
+            <h2>{{ .Page.Title }}</h2>
+            <p>{{ .Count }} posts</p>
+          </a>
+        </article>
+      {{ end }}
+    </section>
+  </article>
+{{ end }}

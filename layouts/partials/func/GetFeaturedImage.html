@@ -1,0 +1,14 @@
+{{ $image := "" }}
+{{ with .Params.featured_image }}
+  {{ $image = strings.Trim . "/" | urls.AbsURL }}
+  {{ with $.Resources.GetMatch . }}
+    {{ $image = .RelPermalink }}
+  {{ end }}
+{{ else }}
+  {{ with .Resources.ByType "image" }}
+    {{ with .GetMatch "**{feature,cover}*" }}
+      {{ $image = .RelPermalink }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ return $image }}

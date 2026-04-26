@@ -6,6 +6,7 @@ slug = "vibe-coding-information-theory"
 tags = ["AI", "Vibe Coding", "Information Theory", "Essay"]
 categories = ["Essays"]
 description = "从香农信息论出发，拆解 Vibe Coding 的边界、价值与真正改变的东西。"
+images = ["/images/posts/claude-shannon.png"]
 copyright = "© 2026 Leslie Liu. All rights reserved."
 +++
 

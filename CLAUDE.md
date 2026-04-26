@@ -4,11 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Hugo-based blog called "Leslie Tech Notes" using the Ananke theme. The site is deployed to GitHub Pages at https://leslieo2.github.io/.
+This is a Hugo-based blog called "Leslie Tech Notes". It is a standalone Hugo site deployed to GitHub Pages at `https://leslieo2.github.io/`. The design uses a custom "journal" aesthetic implemented in local layouts and CSS.
 
 ## Development Commands
 
-### Local Development
 ```bash
 # Start development server with drafts enabled
 hugo server --buildDrafts --disableFastRender
@@ -20,50 +19,55 @@ hugo
 hugo new posts/my-new-post.md
 ```
 
-### Content Management
-- Posts are created in `content/posts/` directory
-- Use `hugo new posts/post-name.md` to create new posts with proper front matter
-- Posts start as drafts by default (set `draft: false` to publish)
+Always run `hugo` before committing to verify a clean build with no errors or warnings.
 
 ## Architecture
 
-### Theme Structure
-- Uses the **Ananke** Hugo theme (`themes/ananke/`)
-- Custom layouts override theme defaults in `layouts/` directory
-- Theme configuration in `themes/ananke/config/_default/`
+### Template hierarchy
 
-### Custom Layouts
-- `layouts/index.html` - Homepage with open-source projects section
-- `layouts/_default/single.html` - Single post layout with copyright notice
-- `layouts/partials/site-footer.html` - Custom footer with contact email
-- `layouts/partials/site-scripts.html` - Mermaid.js integration for diagrams
+The HTML shell is `layouts/_default/baseof.html`, which uses Hugo blocks (`favicon`, `head`, `header`, `main`, `footer`) so child templates can inject or override sections. The key override chain:
 
-### Data Files
-- `data/projects.yaml` - Open-source project listings (authored and contributed)
-- Projects are displayed on the homepage in two columns
+- **Homepage**: `layouts/index.html` defines `"main"` → structured as "chapters" (hero, intro from `_index.md`, recent posts grid, closing thought)
+- **Single post**: `layouts/_default/single.html` defines `"header"` and `"main"` → article hero + body + tags + contextual sidebar
+- **Section listing** (e.g., /posts/): `layouts/_default/list.html` → archive header + post cards + pagination
+- **Summary card**: `layouts/_default/summary-with-image.html` — used for list items with optional featured images
 
-### Configuration
-- Main config: `hugo.toml`
-- Base URL: `https://leslieo2.github.io/`
-- Theme: `ananke`
-- Language: `en-us`
+### Partials and their responsibilities
 
-## Content Features
+| Partial | Purpose |
+|---|---|
+| `site-style.html` | Minifies and fingerprints the local site CSS via Hugo pipes |
+| `site-scripts.html` | Mermaid.js rendering + Plausible analytics (supports both custom script URL and standard domain config) |
+| `site-header.html` | Custom journal-branded header with nav menu |
+| `site-footer.html` | Custom journal-branded footer |
+| `site-favicon.html` | SVG favicon from `Site.Params.favicon` |
+| `head-additions.html` | Google Fonts preconnect + stylesheet (Inter + Newsreader) |
+| `seo.html` | Open Graph, Twitter Cards, Schema.org JSON-LD (Article, BreadcrumbList, Blog, Person, WebSite), canonical URL, pagination `rel=prev/next` |
+| `reading-time.html` | CJK-aware reading time: uses character count / 450 for CJK content, otherwise word count / reading speed |
+| `tags.html` | Renders tag links for a page |
 
-### Front Matter Fields
-Posts support these front matter fields:
-- `title`, `date`, `draft`, `tags`, `categories`, `description`, `copyright`
-- Example: See `content/posts/context-engineering.md`
+### Configuration (`hugo.toml`)
 
-### Mermaid Diagrams
-- Posts can include Mermaid diagrams using code blocks with `language-mermaid`
-- Automatic rendering is handled by custom JavaScript in `site-scripts.html`
+Key params beyond the obvious:
+- `params.hero` — drives the homepage hero section (title, labels, URLs, image)
+- `params.plausibleCustomScriptURL` / `params.plausibleDomain` — analytics (custom script takes precedence)
+- `params.body_classes` — sets the `<body>` class (currently `"theme-journal bg-near-white"`)
+- `params.og_image` — fallback Open Graph image
+- `menu.main` — nav items; the header marks the current page with `.is-active`
 
-### Open Source Projects
-- Homepage displays projects from `data/projects.yaml`
-- Two sections: "Author" (projects created) and "Contributor" (projects contributed to)
+### Content patterns
 
-## Deployment
-- Site is built and deployed to GitHub Pages
-- Production build excludes draft posts
-- Base URL configured for GitHub Pages deployment
+- Posts use TOML front matter (`+++`). Supported fields: `title`, `date`, `draft`, `slug`, `tags`, `categories`, `description`, `images` (array for OG image), `copyright`
+- Filenames in `content/posts/` use kebab-case
+- Homepage intro content lives in `content/_index.md`
+- Open-source projects are in `data/projects.yaml` (sections: `authored` and `contributed`)
+
+### Styling conventions
+
+The custom CSS uses a `journal-*` BEM-like namespace (e.g., `journal-home`, `journal-post-card`, `journal-article__body`). Site CSS lives in `assets/css/site.css`.
+
+## Design constraints
+
+- Do not edit files in `public/` or `resources/` — these are generated
+- The deployment workflow (`.github/workflows/hugo.yml`) builds with `hugo --minify` and pushes `public/` to `leslieo2/leslieo2.github.io` via `peaceiris/actions-gh-pages`
+- Reading time is CJK-aware: CJK posts estimate based on character count rather than word count

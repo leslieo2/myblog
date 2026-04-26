@@ -7,7 +7,6 @@ This repository hosts the Hugo-powered blog **Leslie Tech Notes**, deployed to G
 - `hugo.toml`: Main site configuration.
 - `content/`: Markdown posts and pages (e.g., `content/posts/`).
 - `layouts/`: Custom templates and partials that override the Ananke theme.
-- `themes/ananke/`: Upstream theme; avoid modifying unless necessary.
 - `data/`: Structured data (e.g., `data/projects.yaml` for homepage projects).
 - `assets/`, `static/`: Styles, scripts, and static files.
 - `public/` and `resources/`: Generated output and cache; do not edit by hand.
@@ -43,4 +42,4 @@ There is no dedicated automated test suite; validation is via Hugo:
 
 ## Agent-Specific Notes
 
-Automated tools should avoid editing `public/`, `resources/`, and vendored theme files unless explicitly requested. Prefer edits to `content/`, `layouts/`, `data/`, and config.
+Automated tools should avoid editing `public/` and `resources/` unless explicitly requested. Prefer edits to `content/`, `layouts/`, `assets/`, `static/`, `data/`, and config.
