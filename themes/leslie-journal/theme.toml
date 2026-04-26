@@ -1,0 +1,12 @@
+name = "Leslie Journal"
+license = "MIT"
+licenselink = ""
+description = "A private journal-style Hugo theme for Leslie Tech Notes."
+homepage = "https://leslieo2.github.io/"
+tags = ["blog", "journal", "personal"]
+features = ["responsive", "seo", "reading-time"]
+min_version = "0.160.0"
+
+[author]
+  name = "Leslie Liu"
+  homepage = "https://leslieo2.github.io/"

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Hugo-based blog called "Leslie Tech Notes". It is a standalone Hugo site deployed to GitHub Pages at `https://leslieo2.github.io/`. The design uses a custom "journal" aesthetic implemented in local layouts and CSS.
+This is a Hugo-based blog called "Leslie Tech Notes". It is deployed to GitHub Pages at `https://leslieo2.github.io/` and uses the private `leslie-journal` theme in `themes/leslie-journal/`.
 
 ## Development Commands
 
@@ -25,12 +25,12 @@ Always run `hugo` before committing to verify a clean build with no errors or wa
 
 ### Template hierarchy
 
-The HTML shell is `layouts/_default/baseof.html`, which uses Hugo blocks (`favicon`, `head`, `header`, `main`, `footer`) so child templates can inject or override sections. The key override chain:
+The HTML shell is `themes/leslie-journal/layouts/_default/baseof.html`, which uses Hugo blocks (`favicon`, `head`, `header`, `main`, `footer`) so child templates can inject or override sections. The key override chain:
 
-- **Homepage**: `layouts/index.html` defines `"main"` → structured as "chapters" (hero, intro from `_index.md`, recent posts grid, closing thought)
-- **Single post**: `layouts/_default/single.html` defines `"header"` and `"main"` → article hero + body + tags + contextual sidebar
-- **Section listing** (e.g., /posts/): `layouts/_default/list.html` → archive header + post cards + pagination
-- **Summary card**: `layouts/_default/summary-with-image.html` — used for list items with optional featured images
+- **Homepage**: `themes/leslie-journal/layouts/index.html` defines `"main"` → structured as "chapters" (hero, intro from `_index.md`, recent posts grid, closing thought)
+- **Single post**: `themes/leslie-journal/layouts/_default/single.html` defines `"header"` and `"main"` → article hero + body + tags + contextual sidebar
+- **Section listing** (e.g., /posts/): `themes/leslie-journal/layouts/_default/list.html` → archive header + post cards + pagination
+- **Summary card**: `themes/leslie-journal/layouts/_default/summary-with-image.html` — used for list items with optional featured images
 
 ### Partials and their responsibilities
 
@@ -64,7 +64,7 @@ Key params beyond the obvious:
 
 ### Styling conventions
 
-The custom CSS uses a `journal-*` BEM-like namespace (e.g., `journal-home`, `journal-post-card`, `journal-article__body`). Site CSS lives in `assets/css/site.css`.
+The custom CSS uses a `journal-*` BEM-like namespace (e.g., `journal-home`, `journal-post-card`, `journal-article__body`). Site CSS lives in `themes/leslie-journal/assets/css/site.css`.
 
 ## Design constraints
 
