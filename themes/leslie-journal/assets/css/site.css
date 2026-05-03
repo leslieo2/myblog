@@ -602,7 +602,7 @@ body.theme-journal main {
 
 .journal-post-list {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
   gap: 1rem;
 }
 
@@ -622,6 +622,7 @@ body.theme-journal main {
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-width: 0;
   text-decoration: none;
 }
 
@@ -659,6 +660,21 @@ body.theme-journal main {
   font-size: 1.38rem;
 }
 
+.journal-post-list .journal-post-card h3,
+.journal-list-card h2,
+.journal-post-list .journal-post-card p,
+.journal-list-card p {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  overflow-wrap: anywhere;
+}
+
+.journal-post-list .journal-post-card h3,
+.journal-list-card h2 {
+  -webkit-line-clamp: 2;
+}
+
 .journal-post-card p,
 .journal-list-card p {
   margin: 0;
@@ -666,6 +682,11 @@ body.theme-journal main {
   opacity: 0.8;
   font-size: 0.98rem;
   line-height: 1.62;
+}
+
+.journal-post-list .journal-post-card p,
+.journal-list-card p {
+  -webkit-line-clamp: 3;
 }
 
 .journal-post-card--featured p {
@@ -685,6 +706,7 @@ body.theme-journal main {
 .journal-post-card__tags span {
   display: inline-flex;
   align-items: center;
+  max-width: 100%;
   min-height: 1.9rem;
   padding: 0.2rem 0.72rem;
   border-radius: 999px;
@@ -694,6 +716,7 @@ body.theme-journal main {
   font-size: 0.76rem;
   font-weight: 450;
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 .journal-post-card--featured .journal-post-card__tags span {
